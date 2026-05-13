@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>xFinder Photomath</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:40px;
+}
+
+.box{
+    background:white;
+    color:black;
+    padding:25px;
+    border-radius:15px;
+    width:90%;
+    max-width:650px;
+    margin:auto;
+}
+
+input{
+    width:85%;
+    padding:12px;
+    font-size:18px;
+}
+
+button{
+    padding:12px 20px;
+    margin-top:10px;
+    background:#e53935;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.result{
+    margin-top:20px;
+    font-size:18px;
+    text-align:right;
+    line-height:1.8;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 xFinder Photomath</h1>
+
+<div class="box">
+    <p>اكتب معادلة مثل: 100 - 70 = x</p>
+
+    <input id="eq" placeholder="اكتب المعادلة هنا">
+    <br>
+    <button onclick="solve()">حل + شرح</button>
+
+    <div class="result" id="out"></div>
+</div>
+
+<script>
+function solve(){
+    let eq = document.getElementById("eq").value.replace(/\s/g,'');
+
+    if(!eq.includes("=")){
+        document.getElementById("out").innerHTML = "❌ لازم علامة =";
+        return;
+    }
+
+    let [left,right] = eq.split("=");
+
+    // نكتشف x
+    let xSide;
+
+    if(left.includes("x")) xSide = "left";
+    else xSide = "right";
+
+    try {
+
+        let steps = "";
+
+        if(xSide === "right"){
+            // مثال: 100-70=x
+            let value = eval(left);
+            let result = value;
+
+            steps += "📌 المعادلة: " + left + " = x<br>";
+            steps += "1️⃣ نحسب الطرف الأيسر: " + value + "<br>";
+            steps += "2️⃣ إذن x = " + value + "<br>";
+
+            document.getElementById("out").innerHTML = steps;
+
+        } else {
+            // مثال: x = 100-70
+            let value = eval(right);
+            let result = value;
+
+            steps += "📌 المعادلة: x = " + right + "<br>";
+            steps += "1️⃣ نحسب الطرف الأيمن: " + value + "<br>";
+            steps += "2️⃣ إذن x = " + value + "<br>";
+
+            document.getElementById("out").innerHTML = steps;
+        }
+
+    } catch(e){
+        document.getElementById("out").innerHTML =
+        "❌ المعادلة غير صحيحة";
+    }
+}
+</script>
+
+</body>
+</html>
